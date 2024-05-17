@@ -1,7 +1,7 @@
 import { SmartBezierEdge, SmartStepEdge } from '@tisoap/react-flow-smart-edge';
 import { uniqueId } from 'lodash';
 import { useCallback, useMemo, useState } from 'react';
-import ReactFlow, { Background, BackgroundVariant, ConnectionLineComponentProps, Controls, DefaultEdgeOptions, Edge, MarkerType, MiniMap, Node, OnConnect, OnEdgeUpdateFunc, OnNodesDelete, OnSelectionChangeFunc, ReactFlowInstance, addEdge, getConnectedEdges, getIncomers, getOutgoers, getSimpleBezierPath, internalsSymbol, updateEdge, useEdgesState, useNodes, useNodesState, useReactFlow } from 'reactflow';
+import ReactFlow, { Background, BackgroundVariant, Controls, Edge, MiniMap, Node, OnConnect, OnEdgeUpdateFunc, OnNodesDelete, OnSelectionChangeFunc, ReactFlowInstance, addEdge, getConnectedEdges, getIncomers, getOutgoers, updateEdge, useEdgesState, useNodesState, useReactFlow } from 'reactflow';
 import 'reactflow/dist/style.css';
 import { useSetRecoilState } from 'recoil';
 import { v4 } from 'uuid';
@@ -28,24 +28,24 @@ export const App: React.FC = () => {
   const setSelectedNodeIds = useSetRecoilState(selectedNodeIdsState);
   const setSelectedEdgeIds = useSetRecoilState(selectedEdgeIdsState);
 
-  const defaultEdgeOptions = useMemo(
-    () =>
-      ({
-        animated: true,
-        style: {
-          stroke: '#404040',
-          strokeWidth: '2px',
-        },
-        interactionWidth: 10,
-        markerEnd: {
-          strokeWidth: 2,
-          color: '#404040',
-          type: MarkerType.Arrow,
-        },
-        type: 'CustomEdge',
-      } as DefaultEdgeOptions),
-    [],
-  );
+  // const defaultEdgeOptions = useMemo(
+  //   () =>
+  //     ({
+  //       animated: true,
+  //       style: {
+  //         stroke: '#404040',
+  //         strokeWidth: '2px',
+  //       },
+  //       interactionWidth: 10,
+  //       markerEnd: {
+  //         strokeWidth: 2,
+  //         color: '#404040',
+  //         type: MarkerType.Arrow,
+  //       },
+  //       type: 'CustomEdge',
+  //     } as DefaultEdgeOptions),
+  //   [],
+  // );
 
   const [nodes, setNodes, onNodesChange] = useNodesState<State>([START_NODE]);
   const [edges, setEdges, onEdgesChange] = useEdgesState<Action>([]);
@@ -305,44 +305,44 @@ export const App: React.FC = () => {
   );
 };
 
-const ConnectionLine: React.FC<ConnectionLineComponentProps> = ({ fromHandle, fromNode, toX, toY }) => {
-  const nodes = useNodes<State>();
-  const handleBounds = useMemo(
-    () =>
-      nodes
-        .flatMap(node => {
-          if (node?.id !== fromNode?.id && !node.selected) return [];
-          return node[internalsSymbol]?.handleBounds?.source?.map(bounds => ({
-            id: node.id,
-            positionAbsolute: node.positionAbsolute,
-            bounds,
-          }));
-        })
-        .filter(it => !!it)
-        .map(it => it!),
-    [fromNode?.id, nodes],
-  );
+// const ConnectionLine: React.FC<ConnectionLineComponentProps> = ({ fromHandle, fromNode, toX, toY }) => {
+//   const nodes = useNodes<State>();
+//   const handleBounds = useMemo(
+//     () =>
+//       nodes
+//         .flatMap(node => {
+//           if (node?.id !== fromNode?.id && !node.selected) return [];
+//           return node[internalsSymbol]?.handleBounds?.source?.map(bounds => ({
+//             id: node.id,
+//             positionAbsolute: node.positionAbsolute,
+//             bounds,
+//           }));
+//         })
+//         .filter(it => !!it)
+//         .map(it => it!),
+//     [fromNode?.id, nodes],
+//   );
 
-  if (!handleBounds) return null;
+//   if (!handleBounds) return null;
 
-  return handleBounds.map(({ id, positionAbsolute, bounds }) => {
-    if (!positionAbsolute) return null;
-    const fromHandleX = bounds.x + bounds.width / 2;
-    const fromHandleY = bounds.y + bounds.height / 2;
-    const fromX = positionAbsolute.x + fromHandleX;
-    const fromY = positionAbsolute.y + fromHandleY;
-    const [d] = getSimpleBezierPath({
-      sourceX: fromX,
-      sourceY: fromY,
-      targetX: toX,
-      targetY: toY,
-    });
+//   return handleBounds.map(({ id, positionAbsolute, bounds }) => {
+//     if (!positionAbsolute) return null;
+//     const fromHandleX = bounds.x + bounds.width / 2;
+//     const fromHandleY = bounds.y + bounds.height / 2;
+//     const fromX = positionAbsolute.x + fromHandleX;
+//     const fromY = positionAbsolute.y + fromHandleY;
+//     const [d] = getSimpleBezierPath({
+//       sourceX: fromX,
+//       sourceY: fromY,
+//       targetX: toX,
+//       targetY: toY,
+//     });
 
-    return (
-      <g key={`${id}-${bounds.id}`}>
-        <path fill="none" strokeWidth={1.5} stroke="black" d={d} />
-        <circle cx={toX} cy={toY} fill="#fff" r={3} stroke="black" strokeWidth={1.5} />
-      </g>
-    );
-  });
-};
+//     return (
+//       <g key={`${id}-${bounds.id}`}>
+//         <path fill="none" strokeWidth={1.5} stroke="black" d={d} />
+//         <circle cx={toX} cy={toY} fill="#fff" r={3} stroke="black" strokeWidth={1.5} />
+//       </g>
+//     );
+//   });
+// };

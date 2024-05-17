@@ -2,7 +2,7 @@ import { ContentCopyOutlined, Lock, MailOutline } from '@mui/icons-material';
 import { ListItem, ListItemIcon, ListItemText } from '@mui/material';
 import classNames from 'classnames';
 import { useEffect, useMemo } from 'react';
-import { BaseEdge, EdgeLabelRenderer, EdgeProps, MarkerType, Position, getBezierPath, getSmoothStepPath, useReactFlow, useViewport } from 'reactflow';
+import { BaseEdge, EdgeLabelRenderer, EdgeProps, MarkerType, Position, getBezierPath, useReactFlow, useViewport } from 'reactflow';
 import { useSetRecoilState } from 'recoil';
 import { selectedEdgeLabelCoordsState } from './states';
 import { Action, State } from './types';
